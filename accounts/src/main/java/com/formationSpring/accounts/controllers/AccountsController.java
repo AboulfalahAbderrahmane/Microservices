@@ -4,6 +4,8 @@ import com.formationSpring.accounts.constants.AccountsConstantes;
 import com.formationSpring.accounts.dto.CustomerDto;
 import com.formationSpring.accounts.dto.ResponseDto;
 import com.formationSpring.accounts.services.IAccountService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -14,13 +16,20 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
-
+@Tag(
+        name="CRUD REST API for Accounts",
+        description = "CRUD REST API to handle CREATE,UPDATE,FETCH,DELETE account"
+)
 @RestController
 @RequestMapping(path="/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated @AllArgsConstructor
 public class AccountsController {
 
     private IAccountService iAccountService;
+    @Operation(
+            summary = "Create Account REST API",
+            description = "REST API to create new Cusomer & Account inside EazyBank"
+    )
     @PostMapping(path = "/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto){
         iAccountService.createAccount(customerDto);
