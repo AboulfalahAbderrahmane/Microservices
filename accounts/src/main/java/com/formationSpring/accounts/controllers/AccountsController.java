@@ -5,6 +5,8 @@ import com.formationSpring.accounts.dto.CustomerDto;
 import com.formationSpring.accounts.dto.ResponseDto;
 import com.formationSpring.accounts.services.IAccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -23,12 +25,29 @@ import java.awt.*;
 @RestController
 @RequestMapping(path="/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated @AllArgsConstructor
+
 public class AccountsController {
 
     private IAccountService iAccountService;
+    //documentation swagger using openApi
     @Operation(
             summary = "Create Account REST API",
             description = "REST API to create new Cusomer & Account inside EazyBank"
+    )
+    //documentation swagger using openApi
+    @ApiResponses(
+            {
+
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "HTTP Status OK"
+                    ),
+
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "HTTP Status Internal Error"
+                    )
+            }
     )
     @PostMapping(path = "/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto){
@@ -37,7 +56,7 @@ public class AccountsController {
     }
     @GetMapping(path = "/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam
-                                                               @Pattern(regexp = "d{10}",message = "mobile number must be 10 digits")
+                                                               @Pattern(regexp = "(^0[5-7]{1}[0-9]{8}$)",message = "mobile number must be 10 digits")
                                                                String mobileNumber){
         return ResponseEntity.status(HttpStatus.FOUND).body(iAccountService.fetchAccount(mobileNumber));
     }

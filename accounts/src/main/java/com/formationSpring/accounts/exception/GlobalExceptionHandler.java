@@ -21,6 +21,8 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
+    // handleMethodArgumentNotValid is invoked automatically by Spring MVC
+    // when a method argument annotated with @Valid fails validation during a web request
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
